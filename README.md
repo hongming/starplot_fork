@@ -1,3 +1,8 @@
+## Updates：
+1、替换中文星座名称，例子位置：examples\map_sagittarius_with_Chinese_Constellation_Name/map_sagittarius.py
+<img src="examples\map_sagittarius_with_Chinese_Constellation_Name/map_sagittarius.png">
+
+
 # <img src="https://raw.githubusercontent.com/steveberardi/starplot/main/docs/images/favicon.svg" width="48" style="vertical-align:middle"> Starplot
 ![Python](https://img.shields.io/pypi/pyversions/starplot?style=for-the-badge&color=6388b0)
 ![PyPI](https://img.shields.io/pypi/v/starplot?style=for-the-badge&color=57a8a8)
