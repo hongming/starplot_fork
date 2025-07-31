@@ -1,6 +1,8 @@
 ## Updates：
-1、替换中文星座名称，例子位置：examples\map_sagittarius_with_Chinese_Constellation_Name/map_sagittarius.py
-<img src="examples\map_sagittarius_with_Chinese_Constellation_Name/map_sagittarius.png">
+1、新增示例，显示星座、天体的中文名称；Add example to display the Chinese names of constellations and celestial objects.
+
+examples\Night_Wisper_Star_Party
+<img src="examples\Night_Wisper_Star_Party/map_sagittarius.png">
 
 
 # <img src="https://raw.githubusercontent.com/steveberardi/starplot/main/docs/images/favicon.svg" width="48" style="vertical-align:middle"> Starplot
