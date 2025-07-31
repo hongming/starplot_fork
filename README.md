@@ -1,8 +1,8 @@
 ## Updates：
 1、新增示例，显示星座、天体的中文名称；Add example to display the Chinese names of constellations and celestial objects.
 
-examples\Night_Wisper_Star_Party
-<img src="examples\Night_Wisper_Star_Party/map_sagittarius.png">
+examples\Night_Whisper_Star_Party
+<img src="examples\Night_Whisper_Star_Party/map_sagittarius.png">
 
 
 # <img src="https://raw.githubusercontent.com/steveberardi/starplot/main/docs/images/favicon.svg" width="48" style="vertical-align:middle"> Starplot
