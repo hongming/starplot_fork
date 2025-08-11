@@ -1,3 +1,6 @@
+from starplot import MapPlot, Projection, callables, _
+from starplot.styles import PlotStyle,LabelStyle, extensions
+
 constellations_cn = {
     "and": "仙女",
     "ant": "唧筒",
@@ -288,18 +291,10 @@ label_dict_galaxies={
 
 }
 
-
-from datetime import datetime
-
-from pytz import timezone
-
-from starplot import HorizonPlot,callables, _
-from starplot.styles import PlotStyle, LabelStyle,extensions
-
 style = PlotStyle().extend(
     extensions.ANTIQUE,
+    #extensions.NORD ,
     extensions.MAP,
-    {"figure_background_color": "hsl(212, 27%, 48%)"},
 )
 
 style.dso_open_cluster.label.font_family = 'Microsoft YaHei'
@@ -321,18 +316,18 @@ style.ecliptic.label.font_size = '26'
 style.celestial_equator.label.font_family = 'Microsoft YaHei'
 style.celestial_equator.label.font_size = '26'
 
-dt = timezone("Asia/Shanghai").localize(datetime(2025, 8, 16, 22, 00, 0, 0))
-
-p = HorizonPlot(
-    altitude=(0, 75),
-    azimuth=(15, 70),
-    lat=30.606111,  # Lone Pine, California
-    lon=117.079444,
-    dt=dt,
+p = MapPlot(
+    projection=Projection.MILLER,
+    ra_min=235, #15.6 * 15,
+    ra_max=295, #19.8 * 15,
+    dec_min=-45,
+    dec_max=25,
     style=style,
     resolution=2000, #10000,
     autoscale=True,
 )
+p.constellations()
+p.constellation_borders()
 
 p.stars(
     where=[_.magnitude <= 2],
@@ -374,7 +369,7 @@ p.nebula(
 )
 
 p.messier(where=[(_.magnitude.isnull()) | (_.magnitude < 16),
-               _.name.isin(["NGC1039","NGC1068","NGC1904","NGC1912","NGC1952","NGC1960","NGC1976","NGC1982","NGC0205","NGC2068","NGC2099","NGC2168","NGC0221","NGC0224","NGC2287","NGC2323","NGC2422","NGC2437","NGC2447","NGC2548","NGC2632","NGC2682","NGC3031","NGC3034","NGC3351","NGC3368","NGC3379","NGC3556","NGC3587","NGC3623","NGC3627","NGC3992","NGC4192","NGC4254","NGC4258","NGC4303","NGC4321","NGC4374","NGC4382","NGC4406","NGC4472","NGC4486","NGC4501","NGC4548","NGC4552","NGC4569","NGC4579","NGC4590","NGC4594","NGC4621","NGC4649","NGC4736","NGC4826","NGC5024","NGC5055","NGC5194","NGC5236","NGC5272","NGC5457","NGC0581","NGC5866","NGC5904","NGC0598","NGC6093","NGC6121","NGC6171","NGC6205","NGC6218","NGC6254","NGC6266","NGC6273","NGC6333","NGC6341","NGC6402","NGC6405","NGC6475","NGC6494","NGC0650","NGC6514","NGC6523","NGC6531","NGC6611","NGC6613","NGC6618","NGC6626","NGC6637","NGC6656","NGC6681","NGC6694","NGC6705","NGC6715","NGC6720","NGC6779","NGC6809","NGC6838","NGC6853","NGC6864","NGC6913","NGC6981","NGC6994","NGC7078","NGC7089","NGC7092","NGC7099","NGC7654"])
+               _.name.isin(["NGC1039","NGC1068","NGC1904","NGC1912","NGC1952","NGC1960","NGC1976","NGC1982","NGC0205","NGC2068","NGC2099","NGC2168","NGC0221","NGC0224","NGC2287","NGC2323","NGC2422","NGC2437","NGC2447","NGC2548","NGC2632","NGC2682","NGC3031","NGC3034","NGC3351","NGC3368","NGC3379","NGC3556","NGC3587","NGC3623","NGC3627","NGC3992","NGC4192","NGC4254","NGC4258","NGC4303","NGC4321","NGC4374","NGC4382","NGC4406","NGC4472","NGC4486","NGC4501","NGC4548","NGC4552","NGC4569","NGC4579","NGC4590","NGC4594","NGC4621","NGC4649","NGC4736","NGC4826","NGC5024","NGC5055","NGC5194","NGC5236","NGC5272","NGC5457","NGC0581","NGC5866","NGC5904","NGC0598","NGC6093","NGC6121","NGC6171","NGC6205","NGC6218","NGC6254","NGC6266","NGC6273","NGC0628","NGC6333","NGC6341","NGC6402","NGC6405","NGC6475","NGC6494","NGC0650","NGC6514","NGC6523","NGC6531","NGC6611","NGC6613","NGC6618","NGC6626","NGC6637","NGC6656","NGC6681","NGC6694","NGC6705","NGC6715","NGC6720","NGC6779","NGC6809","NGC6838","NGC6853","NGC6864","NGC6913","NGC6981","NGC6994","NGC7078","NGC7089","NGC7092","NGC7099","NGC7654"])
                   ],
            true_size=False, 
            #label_fn=lambda d: f"M{d.m}"
@@ -402,43 +397,13 @@ p.galaxies(
     ],
     true_size=False,
     label_fn = lambda d: label_dict_galaxies.get(d.name)
-) 
-
-#甘伯串珠
-p.bino_fov(
-    ra=59.3546,
-    dec=63.0684,
-    fov=50,
-    magnification=10,
 )
 
 style2 = LabelStyle(
     font_color="orange",        # 字体颜色
-    font_size=16,       #12        # 字号
+    font_size=16, #12               # 字号
     font_name="Microsoft Yahei",
 )
-
-p.text(
-    text="Kemble 1 甘伯串珠",
-    ra=59.3546,
-    dec=63.0684,
-    hide_on_collision=False,
-    style=style2,
-    )
-
-style3 = LabelStyle(
-    font_color="orange",        # 字体颜色
-    font_size=14,               # 字号
-    font_name="Microsoft Yahei",
-)
-
-p.text(
-    text="夜语星趴 Night Whisper Star Party",
-    ra=25.498,
-    dec=48.6282,
-    hide_on_collision=False,
-    style=style3,
-    )
 ############衣架星群-开始############
 p.marker(
     ra=291.35,
@@ -1002,12 +967,9 @@ p.text(
     hide_on_collision=False,
     )
 ############Palomar15-结束############
-p.constellations()
-p.milky_way()
-p.ecliptic(label='夜语星趴 Night Whisper Star Party')
-p.celestial_equator(label='夜语星趴 Night Whisper Star Party')
-p.constellation_labels(style__font_size=80,style__font_name="microsoft Yahei",labels=constellations_cn)
-#p.horizon(labels={45: "深夜，东北方向@夜语星趴"},style__label__font_family="microsoft Yahei",)
-p.gridlines()
 
-p.export("horizon_M31.png", padding=0.2)
+p.ecliptic(label='夜语星趴 Night Whisper Star Party')
+p.celestial_equator(label='星趴 Night Whisper Star Party')
+p.milky_way()
+p.constellation_labels(style__font_size=80,style__font_name="microsoft Yahei",labels=constellations_cn)
+p.export("map_Sagittarius.png", padding=0.08)
